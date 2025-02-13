@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentines with Babi</title>
+    <link rel="stylesheet" href="Home.css">
+</head>
+<body>
+    <header>
+        <h1>Happy Valentines Babi!</h1>
+    </header>
+    <main>
+        <div class="pokemon-container">
+            <div class="pokemon-card">
+                <img src="selene.jpg">
+                <h2>Selene</h2>
+                <p>Loves received: <span class="love-count">0</span></p>
+                <button class="love-button">Send Love ❤️</button>
+            </div>
+            <div class="pokemon-card">
+                <img src="momo.jpg">
+                <h2>Momo</h2>
+                <p>Loves received: <span class="love-count">0</span></p>
+                <button class="love-button">Send Love ❤️</button>
+            </div>
+            <div class="pokemon-card">
+                <img src="babi2.jpg">
+                <h2>Charlene</h2>
+                <p>Loves received: <span class="love-count">0</span></p>
+                <button class="love-button">Send Love ❤️</button>
+            </div>
+            <div class="pokemon-card">
+                <img src="me.jpg">
+                <h2>Miles</h2>
+                <p>Loves received: <span class="love-count">0</span></p>
+                <button class="love-button">Send Love ❤️</button>
+            </div>
+        </div>
+    </main>
+    <section class="open-pack">
+        <h2>Choose Your Path Babi!</h2>
+        <a href="Hehe.html" class="pack-button">Open Pack</a>
+        <a href="gallery.html" class="pack-button">Babi Gallery</a>
+        <a href="message.html" class="pack-button">Check my Message</a>
+    </section>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const loveButtons = document.querySelectorAll(".love-button")
+
+            loveButtons.forEach((button) => {
+                button.addEventListener("click", () => {
+                const card = button.closest(".pokemon-card")
+                const loveCount = card.querySelector(".love-count")
+                const pokemonName = card.dataset.pokemon
+
+                let count = Number.parseInt(loveCount.textContent)
+                count++
+                loveCount.textContent = count
+
+                // Create and animate heart
+                const heart = document.createElement("div")
+                heart.innerHTML = "❤️"
+                heart.style.position = "absolute"
+                heart.style.left = `${button.offsetLeft + button.offsetWidth / 2}px`
+                heart.style.top = `${button.offsetTop}px`
+                heart.style.fontSize = "24px"
+                heart.style.transition = "all 1s ease-out"
+                card.appendChild(heart)
+
+                setTimeout(() => {
+                    heart.style.transform = "translateY(-50px)"
+                    heart.style.opacity = "0"
+                }, 50)
+
+                setTimeout(() => {
+                    heart.remove()
+                }, 1000)
+
+                console.log(`Sent love to ${pokemonName}! Total loves: ${count}`)
+                })
+            })
+            })
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Pokémon TCG</title>
+    <link rel="stylesheet" href="Home.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body class="tcg-body">
+    <div class="tcg-container">
+        <header class="tcg-header">
+            <h1>Valentine's Pokémon TCG</h1>
+        </header>
+        <main class="tcg-main">
+            <div class="pack-container">
+                <div class="pack" id="pack"></div>
+                <div class="card hidden" id="pokemonCard">
+                    <div class="card-inner">
+                        <div class="card-back" id="cardBack"></div>
+                        <div class="card-front" id="cardFront"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="button-container">
+                <button id="openPackButton" class="tcg-button">Open Pack</button>
+                <button id="nextCardButton" class="tcg-button hidden">Next Card</button>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        const pack = document.getElementById("pack");
+        const card = document.getElementById("pokemonCard");
+        const cardBack = document.getElementById("cardBack");
+        const cardFront = document.getElementById("cardFront");
+        const openPackButton = document.getElementById("openPackButton");
+        const nextCardButton = document.getElementById("nextCardButton");
+
+        let isPackOpened = false;
+        let isCardFlipped = false;
+        let currentCardIndex = 0;
+
+        const cardBackImages = ["Pic1.png", "Pic2.png", "Pic3.png", "Pic4.png", "Pic5.png"];
+
+        nextCardButton.disabled = true;
+
+        openPackButton.addEventListener("click", () => {
+            if (!isPackOpened) {
+                pack.classList.add("open");
+                setTimeout(() => {
+                    pack.style.display = "none";
+                    card.classList.remove("hidden");
+                    card.classList.add("show");
+                    openPackButton.textContent = "Flip Card";
+                    isPackOpened = true;
+                    nextCardButton.classList.remove("hidden");
+                }, 1000);
+            } else if (!isCardFlipped) {
+                card.classList.add("flipped");
+                openPackButton.textContent = "Flip Back";
+                isCardFlipped = true;
+                nextCardButton.disabled = false;
+            } else {
+                card.classList.remove("flipped");
+                openPackButton.textContent = "Flip Card";
+                isCardFlipped = false;
+                nextCardButton.disabled = true;
+            }
+        });
+
+        nextCardButton.addEventListener("click", () => {
+            if (!isCardFlipped) return;
+
+            if (currentCardIndex === cardBackImages.length - 1) {
+                nextCardButton.textContent = "Go Back";
+                nextCardButton.onclick = () => {
+                    window.location.href = "Home.html";
+                };
+            } else {
+                card.classList.add("slide-out");
+                setTimeout(() => {
+                    currentCardIndex++;
+                    cardBack.style.backgroundImage = `url(${cardBackImages[currentCardIndex]})`;
+                    card.classList.remove("slide-out", "flipped");
+                    openPackButton.textContent = "Flip Card";
+                    isCardFlipped = false;
+                    nextCardButton.disabled = true;
+                }, 500);
+            }
+        });
+
+        function resetPack() {
+            pack.classList.remove("open");
+            pack.style.display = "block";
+            card.classList.add("hidden");
+            isPackOpened = false;
+            isCardFlipped = false;
+            currentCardIndex = 0;
+            openPackButton.textContent = "Open Pack";
+            nextCardButton.classList.add("hidden");
+            nextCardButton.disabled = true;
+            cardBack.style.backgroundImage = `url(${cardBackImages[currentCardIndex]})`;
+        }
+
+        resetPack();
+
+        cardBack.style.backgroundImage = `url(${cardBackImages[currentCardIndex]})`;
+        cardFront.style.backgroundImage = "url(pokemon.png)";
+    </script>
+</body>
+</html>
